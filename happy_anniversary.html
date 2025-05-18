@@ -1,0 +1,111 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Happy Anniversary</title>
+  <style>
+    body {
+      margin: 0;
+      padding: 0;
+      background: linear-gradient(to top right, #ffdee9, #b5fffc);
+      font-family: 'Segoe UI', sans-serif;
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+      justify-content: center;
+      height: 100vh;
+      overflow: hidden;
+    }
+    h1 {
+      font-size: 3rem;
+      margin-bottom: 10px;
+      color: #d63384;
+    }
+    #timer {
+      font-size: 2rem;
+      background: white;
+      padding: 15px 25px;
+      border-radius: 15px;
+      box-shadow: 0 4px 15px rgba(0,0,0,0.2);
+      color: #333;
+    }
+    .heart {
+      position: absolute;
+      width: 50px;
+      height: 50px;
+      background-color: red;
+      transform: rotate(45deg);
+      animation: float 6s linear infinite;
+    }
+    .heart::before,
+    .heart::after {
+      content: "";
+      position: absolute;
+      width: 50px;
+      height: 50px;
+      background-color: red;
+      border-radius: 50%;
+    }
+    .heart::before {
+      top: -25px;
+      left: 0;
+    }
+    .heart::after {
+      left: -25px;
+      top: 0;
+    }
+    @keyframes float {
+      0% {
+        bottom: -50px;
+        left: 50%;
+        opacity: 1;
+      }
+      100% {
+        bottom: 110%;
+        left: calc(50% + 100px);
+        opacity: 0;
+      }
+    }
+  </style>
+</head>
+<body>
+  <h1>Happy Anniversary!</h1>
+  <div id="timer"></div>
+  <audio autoplay loop>
+    <source src="https://www.bensound.com/bensound-music/bensound-romantic.mp3" type="audio/mpeg" />
+  </audio>
+  <script>
+    const marriageDate = new Date("2013-05-19T00:00:00"); // 2070 Jestha 5 = 2013-05-19
+    const timerDiv = document.getElementById("timer");
+
+    function updateTimer() {
+      const now = new Date();
+      const diff = now - marriageDate;
+
+      const years = Math.floor(diff / (1000 * 60 * 60 * 24 * 365.25));
+      const days = Math.floor((diff / (1000 * 60 * 60 * 24)) % 365.25);
+      const hours = Math.floor((diff / (1000 * 60 * 60)) % 24);
+      const minutes = Math.floor((diff / (1000 * 60)) % 60);
+      const seconds = Math.floor((diff / 1000) % 60);
+
+      timerDiv.innerHTML = `
+        ${years} वर्ष ${days} दिन<br>
+        ${hours} घण्टा ${minutes} मिनेट ${seconds} सेकेन्ड
+      `;
+    }
+
+    setInterval(updateTimer, 1000);
+    updateTimer();
+
+    // Floating hearts
+    setInterval(() => {
+      const heart = document.createElement("div");
+      heart.classList.add("heart");
+      heart.style.left = Math.random() * 100 + "%";
+      document.body.appendChild(heart);
+      setTimeout(() => heart.remove(), 6000);
+    }, 800);
+  </script>
+</body>
+</html>
